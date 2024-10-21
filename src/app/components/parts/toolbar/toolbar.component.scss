@@ -1,0 +1,181 @@
+@import '../../../styles/theme.scss';
+
+.toolbar {
+  position: fixed;
+  left: 0;
+  top: 70px;
+  width: 300px;
+  height: calc(100% - 70px);
+  background-color: $backgroundSecondary;
+  border-right: 1px solid $borderColor;
+  z-index: 10;
+
+  .inner {
+    height: calc(100% - 140px);
+    overflow: auto;
+  }
+
+  .section {
+    padding: 20px;
+    border-bottom: 1px solid $borderColor;
+
+    &.tileset-box {
+      height: calc(100% - 200px);
+      min-height: 400px;
+    }
+
+    &.tool-box {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: 140px;
+      border-top: 1px solid $borderColor;
+      z-index: 2;
+      background-color: $backgroundSecondary;
+    }
+
+    .tileset-selection {
+      width: 100%;
+      margin-bottom: 20px;
+
+      select {
+        width: 100%;
+        text-align: center;
+      }
+    }
+
+    .box {
+      background-color: $backgroundTiertiary;
+      width: 100%;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      overflow: hidden;
+
+      &.tileset-cont {
+        overflow: auto;
+        transition: all 0.3s linear;
+
+        &.expand {
+          box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
+          overflow: hidden;
+        }
+
+        .tileset {
+          position: relative;
+          z-index: 10;
+          background:  $backgroundTiertiary;
+
+          #grid {
+            position: absolute;
+            left: 0;
+            top: 0;
+            z-index: 2;
+          }
+
+          .selection {
+            position: absolute;
+            border: 2px solid $mainColor;
+            box-shadow: 0px 0px 10px $mainColor;
+            background-color: $secondColor;
+            opacity: 0.8;
+            z-index: 2;
+            pointer-events: none;
+
+          }
+
+          .cursor {
+            position: absolute;
+            background-color: $secondColor;
+            opacity: 0.6;
+            z-index: 2;
+            pointer-events: none;
+          }
+        }
+      }
+
+      &.charset-cont {
+        height: 100px;
+        overflow: auto;
+
+        .charsets {
+          padding: 20px;
+          display: flex;
+          flex-wrap: wrap;
+          gap: 10px;
+
+          .charset {
+            cursor: pointer;
+            border-radius: 5px;
+
+            &.active {
+              background-color: $mainColor;
+            }
+
+            &:hover {
+              background-color: rgba(255, 255, 255, 0.5);
+
+            }
+          }
+
+        }
+      }
+
+    }
+
+
+
+    .tool-cont {
+      padding: 20px;
+      padding-top: 0px;
+
+      .tools {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+
+        .tool {
+          flex: 1 1 auto;
+          text-align: center;
+          color: $textColor;
+          cursor: pointer;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          border-radius: 5px;
+          padding: 5px;
+
+          &.blank {
+            &:hover {
+              color: $removeColor;
+              text-shadow: 0px 0px 5px $removeColor;
+            }
+          }
+
+          &:hover {
+            color: $mainColor;
+            text-shadow: 0px 0px 5px $mainColor;
+          }
+
+          &.active {
+            background: $mainColor;
+            color: $secondColor;
+          }
+
+          .ng-fa-icon {
+            font-size: 24px;
+            display: block;
+          }
+          .name {
+            text-align: center;
+            font-size: 18px;
+          }
+        }
+      }
+    }
+
+  }
+
+
+
+}

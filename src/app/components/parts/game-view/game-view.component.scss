@@ -1,0 +1,15 @@
+@import '../../../styles/theme.scss';
+
+#view {
+  width: 1000px;
+  height: 600px;
+  background: black;
+  margin: auto;
+}
+
+
+@media screen and (min-width: 2000px) {
+  #view {
+    transform: scale(1.5);
+  }
+}

@@ -1,0 +1,41 @@
+<div class="modal" [class.opened]="opened">
+  <div class="window">
+    <div class="header">
+      <fa-icon class="icon" [icon]="faGamepad"></fa-icon>
+      <span>{{title}}</span>
+      <fa-icon class="close" [icon]="faTimes" (click)="close()"></fa-icon>
+    </div>
+    <div class="content">
+      <form [formGroup]="creationForm">
+        <div class="fields">
+          <div class="field">
+            <div class="label">Title</div>
+            <div class="value">
+              <input type="text" [formControlName]="'title'">
+            </div>
+          </div>
+        </div>
+        <div class="fields">
+          <div class="field">
+            <div class="label">Screen Width (px)</div>
+            <div class="value">
+              <input type="number" [formControlName]="'screenWidth'">
+            </div>
+          </div>
+          <div class="field">
+            <div class="label">Screen height (px)</div>
+            <div class="value">
+              <input type="number" [formControlName]="'screenHeight'">
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="footer">
+      <button type="button" class="btn primary" (click)="create()" [disabled]="!creationForm.valid">
+        <fa-icon [icon]="faFolderPlus"></fa-icon>
+        <span>Create game</span>
+      </button>
+    </div>
+  </div>
+</div>

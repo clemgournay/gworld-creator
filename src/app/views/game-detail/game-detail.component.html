@@ -1,0 +1,37 @@
+<app-header [view]="'browser'" [title]="title"></app-header>
+<main>
+  <div class="controls">
+    <button type="button" class="btn primary" [routerLink]="'./maps/new'">
+      <fa-icon [icon]="faTableCells"></fa-icon>
+      <span>New map</span>
+    </button>
+  </div>
+
+  <div class="item-list">
+    @if (maps.length === 0) {
+      <p class="no-data">
+        No map have been created for now.<br>
+        Start creating one by clicking on "New map".
+      </p>
+    } @else {
+      <div class="items">
+        @for (map of maps; track map._id) {
+          <div class="item" [routerLink]="'./maps/' + map._id">
+            <div class="preview-cont">
+              @if (map.preview) {
+                <div class="preview" [style.backgroundImage]="'url(' + map.preview + ')'"></div>
+              } @else {
+                <div class="no-preview">
+                  <span>No preview</span>
+                </div>
+              }
+            </div>
+            <div class="title">{{map.title}}</div>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</main>
+
+<!--<modal-map-creation #mapCreationModal></modal-map-creation>-->

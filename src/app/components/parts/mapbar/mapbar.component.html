@@ -1,0 +1,42 @@
+<div class="mapbar">
+
+  <div class="layers">
+    @for (layer of getLayers(); track layer.index; let i = $index) {
+      <div class="layer" [class.active]="getCurrentLayer().index === i" [style.zIndex]="getLayers().length - (i + 1)" (click)="switchLayer(layer)">
+        <fa-icon [icon]="faLayerGroup"></fa-icon>
+        <span>{{layer.name}}</span>
+      </div>
+    }
+  </div>
+
+  <div class="toggles">
+    <div class="toggle">
+      <input id="toggle-grid" type="checkbox" [checked]="showGrid" (click)="toggleGrid($event)">
+      <label for="toggle-grid">Show grid</label>
+    </div>
+  </div>
+
+  <div class="fields">
+    <div class="field">
+      <div class="label">Width</div>
+      <div class="value">
+        <input type="number" [(ngModel)]="mapWidth" (change)="updateWidth()">
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="label">Height</div>
+      <div class="value">
+        <input type="number" [(ngModel)]="mapHeight" (change)="updateHeight()">
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="label">Tile size</div>
+      <div class="value">
+        <input type="number" [(ngModel)]="tileSize" (change)="updateTileSize()">
+      </div>
+    </div>
+
+  </div>
+</div>

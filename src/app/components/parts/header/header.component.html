@@ -1,0 +1,27 @@
+<header>
+  <h1 [routerLink]="''">GWorld Creator</h1>
+
+  <div class="title" *ngIf="view === 'browser'">
+    <h2>{{title}}</h2>
+  </div>
+
+  <div class="title" *ngIf="view === 'editor'">
+    <input type="text" [(ngModel)]="mapTitle" (change)="updateMapTitle()"/>
+  </div>
+
+  <div class="controls" *ngIf="view === 'editor'">
+    <button class="btn"  *ngIf="!isPlaying() && !isDemo()" (click)="save()" >
+      <fa-icon [icon]="faFloppyDisk"></fa-icon>
+      <span>Save</span>
+    </button>
+    <button class="btn primary" *ngIf="!isPlaying()" (click)="play()">
+      <fa-icon [icon]="faPlay"></fa-icon>
+      <span>Play</span>
+    </button>
+    <button class="btn red" *ngIf="isPlaying()" (click)="stop()">
+      <fa-icon [icon]="faCircleStop"></fa-icon>
+      <span>Stop</span>
+    </button>
+  </div>
+
+</header>

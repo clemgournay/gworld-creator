@@ -1,0 +1,53 @@
+@import '../../../styles/theme.scss';
+
+header {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: #{$headerSize}px;
+  line-height: #{$headerSize}px;
+  background-color: $backgroundSecondary;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-bottom: 1px solid $borderColor;
+
+  h1 {
+    margin: 0;
+    color: $mainColor;
+    font-size: 36px;
+    cursor: pointer;
+  }
+
+  .title {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    width: 500px;
+    text-align: center;
+    transform: translate3d(-50%, 0, 0);
+
+    input {
+      width: 100%;
+      height: 50px;
+      text-align: center;
+      font-size: 24px;
+    }
+  }
+
+  .controls {
+    position: absolute;
+    right: 20px;
+    top: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
+    .btn {
+      height: 40px;
+      line-height: 40px;
+      padding: 0 20px;
+    }
+  }
+}

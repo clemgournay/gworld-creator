@@ -1,0 +1,36 @@
+<div class="outer" (mousedown)="onMouseDown($event)" (mousemove)="onMouseMove($event)" (mouseup)="onMouseUp($event)" (mouseleave)="onMouseLeave()"
+  [style.width]="getMap().screenWidth + 'px'"
+  [style.height]="getMap().screenHeight + 'px'"
+>
+  <canvas id="map"
+    [width]="getMap().screenWidth"
+    [height]="getMap().screenHeight"
+    [style.width]="getMap().screenWidth + 'px'"
+    [style.height]="getMap().screenHeight + 'px'"
+  #mapEl></canvas>
+
+  <div class="characters">
+    @for (character of getCharacters(); track character.id) {
+      <div class="character" *ngIf="character.charset.img"
+        [style.left]="character.x + 'px'"
+        [style.top]="character.y + 'px'"
+        [style.width]="getMap().tileSize + 'px'"
+        [style.height]="getMap().tileSize + 'px'"
+        [style.backgroundImage]="'url(\'' + character.charset.img.src + '\')'"
+        [style.backgroundSize]="getCharacterBackgroundSize(character)"
+      ></div>
+    }
+  </div>
+
+  <div class="cursor"
+    [style.left]="getCursorArea().x + 'px'"
+    [style.top]="getCursorArea().y + 'px'"
+    [style.width]="getCursorArea().screenWidth + 'px'"
+    [style.height]="getCursorArea().screenHeight + 'px'"
+    [style.backgroundImage]="'url(' + getCurrentTileset().src + ')'"
+    [style.backgroundPosition]="getCursorBackgroundPosition()"
+    [style.backgroundSize]="getCursorBackgroundSize()"
+  ></div>
+
+</div>
+

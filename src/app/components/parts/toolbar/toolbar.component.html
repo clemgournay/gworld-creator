@@ -1,0 +1,82 @@
+<div class="toolbar">
+
+  <div class="inner" [style.overflow]="isSmallSize() ? 'auto' : 'visible'">
+
+    <div class="section tileset-box">
+      <h2>Tilesets</h2>
+      <div class="tileset-selection">
+        <select [(ngModel)]="selectedTilesetID" (change)="updateTileset()">
+          @for (tileset of getTilesets(); track tileset.id) {
+            <option [value]="tileset.id">{{tileset.id}}</option>
+          }
+        </select>
+      </div>
+
+      <div class="box tileset-cont" [class.expand]="hovering" (mouseenter)="onTilesetEnter()" (mouseleave)="onTilesetLeave()"
+        [style.width]="hovering ? (getCurrentTileset().screenWidth + 10) + 'px' : '255px'"
+        [style.height]="hovering ? (getCurrentTileset().screenHeight + 10) + 'px' : 'calc(100% - 100px)'"
+      >
+        <div class="tileset">
+
+          <img draggable="false" [src]="getCurrentTileset().src">
+
+          <canvas id="grid" (mousedown)="onMouseDown($event)" (mousemove)="onMouseMove($event)" (mouseup)="onMouseUp($event)" (mouseleave)="onMouseLeave($event)"
+            [width]="getCurrentTileset().screenWidth"
+            [height]="getCurrentTileset().screenHeight"
+            [style.width]="getCurrentTileset().screenWidth + 'px'"
+            [style.height]="getCurrentTileset().screenHeight + 'px'"
+          #gridEl></canvas>
+
+          <div class="selection"
+            [style.left]="getSelectionArea().x + 'px'"
+            [style.top]="getSelectionArea().y + 'px'"
+            [style.width]="getSelectionArea().screenWidth + 'px'"
+            [style.height]="getSelectionArea().screenHeight + 'px'"
+          ></div>
+
+          <div class="cursor"
+            [style.left]="cursorArea.x + 'px'"
+            [style.top]="cursorArea.y + 'px'"
+            [style.width]="cursorArea.screenWidth + 'px'"
+            [style.height]="cursorArea.screenHeight + 'px'"
+          ></div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="section charset-box">
+      <h2>Charsets</h2>
+      <div class="box charset-cont">
+        <div class="charsets">
+          @for (charset of getCharsets(); track charset.id) {
+            <div class="charset" [class.active]="getCurrentCharset().id === charset.id" (click)="updateCharset(charset)"
+              [style.backgroundImage]="'url(\'' + charset.src + '\')'"
+              [style.width]="charset.spriteWidth + 'px'"
+              [style.height]="charset.spriteHeight + 'px'"
+            ></div>
+          }
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+  <div class="section tool-box">
+    <h2>Tools</h2>
+    <div class="tool-cont">
+      <div class="tools">
+        @for (tool of getTools(); track tool.id) {
+          <div class="tool" [ngClass]="tool.id" [class.active]="getCurrentTool().id === tool.id" (click)="updateTool(tool)">
+            <div class="center">
+              <fa-icon [icon]="tool.icon"></fa-icon>
+              <div class="name">{{tool.name}}</div>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+
+</div>

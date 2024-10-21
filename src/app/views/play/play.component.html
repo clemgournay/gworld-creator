@@ -1,0 +1,6 @@
+<app-header (requestStop)="stop()"></app-header>
+<main>
+  <div class="game-view-cont" *ngIf="gameSettings">
+    <app-game-view [settings]="gameSettings"></app-game-view>
+  </div>
+</main>

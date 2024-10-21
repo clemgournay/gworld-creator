@@ -1,0 +1,8 @@
+<app-header [view]="'editor'" (requestSave)="save()" (requestPlay)="play()"></app-header>
+<app-toolbar (requestEraseLayer)="eraseLayer()"></app-toolbar>
+<main>
+  <div class="map-cont">
+    <app-map [grid]="grid" #mapComp></app-map>
+  </div>
+</main>
+<app-mapbar [grid]="grid" (switchedLayer)="layerSwitched()"></app-mapbar>

@@ -1,0 +1,37 @@
+<app-header [view]="'browser'" [title]="title"></app-header>
+<main>
+  <div class="controls">
+    <button type="button" class="btn primary" (click)="gameCreationModal.open()">
+      <fa-icon [icon]="faGamepad"></fa-icon>
+      <span>New game</span>
+    </button>
+  </div>
+
+  <div class="item-list">
+    @if (games.length === 0) {
+      <p class="no-data">
+        No game have been created for now.<br>
+        Start creating one by clicking on "New game".
+      </p>
+    } @else {
+      <div class="items">
+        @for (game of games; track game._id) {
+          <div class="item" [routerLink]="'./' + game._id">
+            <div class="preview-cont">
+              @if (game.preview) {
+                <div class="preview" [style.backgroundImage]="'url(' + game.preview + ')'"></div>
+              } @else {
+                <div class="no-preview">
+                  <span>No preview</span>
+                </div>
+              }
+            </div>
+            <div class="title">{{game.title}}</div>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</main>
+
+<modal-game-creation (created)="newGame($event)" #gameCreationModal></modal-game-creation>

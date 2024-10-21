@@ -1,0 +1,15 @@
+@import '../../../styles/modals.scss';
+
+.modal {
+  .window {
+    .content {
+      .fields {
+        display: flex;
+        gap: 10px;
+        .field {
+          margin-bottom: 20px;
+        }
+      }
+    }
+  }
+}

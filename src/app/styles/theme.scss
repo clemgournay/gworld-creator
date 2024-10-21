@@ -1,0 +1,105 @@
+/*$backgroundPrimary: rgb(30, 30, 30);
+$backgroundSecondary: #242424;*/
+
+$backgroundPrimary: #24283b;
+$backgroundSecondary: #1f2335;
+$backgroundTiertiary: rgb(25, 28, 42);
+
+$textColor: #93bdf5;
+$borderColor: #161a2d;
+
+$mainColor: #7dcad9;
+$secondColor: #999af7;
+$removeColor: rgb(254, 112, 112);
+
+$toolbarSize: 300;
+$worldbarSize: 40;
+$headerSize: 70;
+
+input, select {
+  background-color: $backgroundTiertiary;
+  color: white;
+  border-radius: 5px;
+  border: 1px solid $borderColor;
+  height: 30px;
+  text-indent: 10px;
+  transition: all 0.3s linear;
+
+  &:focus {
+    box-shadow: 0px 0px 10px $mainColor;
+  }
+}
+
+select {
+  color: white;
+  option {
+    color: $secondColor;
+  }
+}
+
+.btn {
+  background-color: $secondColor;
+  border-radius: 0px;
+  padding: 10px 20px;
+  border: none;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s linear;
+
+  &[disabled] {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  &:hover {
+    color: $secondColor;
+    box-shadow: 0px 0px 10px $secondColor;
+    color: black;
+
+    &.primary {
+      box-shadow: 0px 0px 10px $mainColor;
+    }
+
+    &.red {
+      box-shadow: 0px 0px 10px $removeColor;
+
+    }
+  }
+
+
+  &.primary {
+    background: $mainColor;
+    color: black;
+  }
+
+
+  &.red {
+    background: $removeColor;
+  }
+
+  .ng-fa-icon {
+    margin-right: 5px;
+  }
+
+
+}
+
+::-webkit-scrollbar-track
+{
+  -webkit-box-shadow: none;
+  background-color: transparent;
+}
+
+::-webkit-scrollbar
+{
+  width: 8px;
+  height: 8px;
+  background-color: transparent
+}
+
+::-webkit-scrollbar-thumb
+{
+  background-color: $mainColor;
+  border-radius: 0px;
+}

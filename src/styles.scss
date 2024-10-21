@@ -1,0 +1,46 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Oxanium:wght@200..800&display=swap');
+@import './app/styles/theme.scss';
+
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  font-family: Oxanium;
+
+  background-color: $backgroundPrimary;
+  color: $textColor;
+
+  * {
+    box-sizing: border-box;
+  }
+
+  h1 {
+    color: $mainColor;
+    font-size: 36px;
+  }
+
+  h2 {
+    color: $secondColor;
+    margin: 0;
+    font-size: 32px;
+  }
+
+  main {
+    padding-top: 70px;
+
+    .no-data {
+      font-style: italic;
+      text-align: center;
+    }
+  }
+}
+
+
+.no-select {
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
