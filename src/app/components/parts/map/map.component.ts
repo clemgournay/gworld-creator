@@ -358,6 +358,24 @@ export class MapComponent {
     return canvas.toDataURL();
   }
 
+  
+  async getPreviewDataURL(): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
+      const dataURL = this.getDataURL();
+      const img = new Image();
+      img.src = dataURL;
+      img.onload = () => {
+        canvas.width = 150;
+        canvas.height = 150;
+        ctx.drawImage(img, 0, 0, 150, 150);
+        resolve(canvas.toDataURL());
+      }
+    });
+
+  }
+
   getDataURL(): string {
     return this.mapEl.nativeElement.toDataURL();
   }

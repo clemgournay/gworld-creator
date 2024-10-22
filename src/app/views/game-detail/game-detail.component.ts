@@ -55,10 +55,15 @@ export class GameDetailComponent {
   loadingComplete(): void {
     const gameID = this.route.snapshot.paramMap.get('game-id');
     if (gameID) {
+      console.log(gameID);
       this.gameService.getOne(gameID).subscribe((resp: APIResp) => {
         this.game = resp.data;
         this.title = this.game.title;
         this.gameService.setCurrent(this.game);
+
+        this.mapService.getGameMaps(gameID).subscribe((resp: APIResp) => {
+          this.maps = resp.data;
+        });
       });
     }
 

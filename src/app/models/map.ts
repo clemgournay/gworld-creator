@@ -11,4 +11,5 @@ export class Map {
   tileSize: number;
   showGrid: boolean;
   preview?: string;
+  game?: string;
 }

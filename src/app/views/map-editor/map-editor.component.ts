@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 
 import { SharedModule } from '@shared/shared.module';
 
@@ -21,6 +21,7 @@ import { toolbarComponent } from '@components/parts/toolbar/toolbar.component';
 import { MapComponent } from '@components/parts/map/map.component';
 import { MapbarComponent } from '@components/parts/mapbar/mapbar.component';
 import { APIResp } from '@models/api-resp';
+import { AppService } from '@services/app.service';
 
 @Component({
   standalone: true,
@@ -36,15 +37,20 @@ import { APIResp } from '@models/api-resp';
 })
 export class MapEditorComponent {
 
+  initStateSub: Subscription;
   grid: Grid;
   mapChanged: Subject<Map>;
   gameSettings: GameSettings;
+
+  gameID: string = 'new';
+  mapID: string = 'new';
 
   @ViewChild('mapComp') mapComp: MapComponent;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
+    private appService: AppService,
     private gameService: GameService,
     private mapService: MapService,
     private charsetService: CharsetService,
@@ -57,21 +63,7 @@ export class MapEditorComponent {
     if (state.gameSettings) {
       const gameSettings = state.gameSettings;
       const mapSettings = gameSettings.maps[0];
-      this.mapService.updateWidth(mapSettings.width, false);
-      this.mapService.updateHeight(mapSettings.height, false);
-      this.mapService.updateTileSize(mapSettings.tileSize, false);
-      this.mapService.updateTitle(mapSettings.title);
-      if (!mapSettings.showGrid) this.mapService.hideGrid();
-
-      this.grid = new Grid(mapSettings.width, mapSettings.height, mapSettings.tileSize);
-      for (let x = 0; x < mapSettings.layers.length; x++) {
-        const tiles = mapSettings.layers[x].tiles;
-        for (let coor in tiles) {
-          const content = tiles[coor];
-          const coordinates = ParseCoordinates(coor);
-          this.grid.updateTileContentInLayer(x, coordinates.i, coordinates.j, content);
-        }
-      }
+      this.buildMapFromSettings(mapSettings);
     } else {
       const map = this.mapService.getCurrent();
       this.grid = new Grid(map.width, map.height, map.tileSize)
@@ -80,6 +72,52 @@ export class MapEditorComponent {
     this.mapChanged.subscribe((newMap: Map) => {
       this.grid.updateSize(newMap.width, newMap.height, newMap.tileSize);
     });
+  }
+
+  ngOnInit(): void {
+    this.initStateSub = this.appService.getInitState().subscribe((state: boolean) => {
+      if (state) this.loadingComplete();
+    });
+  }
+
+  buildMapFromSettings(mapSettings: MapSettings): void {
+    this.mapService.updateWidth(mapSettings.width, false);
+    this.mapService.updateHeight(mapSettings.height, false);
+    this.mapService.updateTileSize(mapSettings.tileSize, false);
+    this.mapService.updateTitle(mapSettings.title);
+    if (!mapSettings.showGrid) this.mapService.hideGrid();
+
+    this.grid = new Grid(mapSettings.width, mapSettings.height, mapSettings.tileSize);
+    for (let x = 0; x < mapSettings.layers.length; x++) {
+      const tiles = mapSettings.layers[x].tiles;
+      for (let coor in tiles) {
+        const content = tiles[coor];
+        const coordinates = ParseCoordinates(coor);
+        this.grid.updateTileContentInLayer(x, coordinates.i, coordinates.j, content);
+      }
+    }
+  }
+
+  loadingComplete(): void {
+    const gameID = this.route.snapshot.paramMap.get('game-id');
+    const mapID = this.route.snapshot.paramMap.get('map-id');
+    if (gameID) {
+      this.gameID = gameID;
+      this.gameService.updateID(gameID);
+    }
+    if (mapID) {
+      this.mapID = mapID;
+      this.mapService.updateID(this.mapID);
+
+      this.mapService.getOne(mapID).subscribe((resp: APIResp) => {
+        const mapSettings = resp.data;
+        this.mapService.getLayers(mapID).subscribe((resp: APIResp) => {
+          mapSettings.layers = resp.data;
+          console.log('MAP SETTINGS FROM SERVER', mapSettings)
+          this.buildMapFromSettings(mapSettings);
+        })
+      });
+    }
   }
 
   eraseLayer(): void {
@@ -150,21 +188,21 @@ export class MapEditorComponent {
     if (!this.isDemo()) {
 
       console.log('MAP', map);
+      map.preview = await this.mapComp.getPreviewDataURL();
 
-      if (map._id === 'new') {
+      map.game = this.gameID;
+      if (this.mapID === 'new') {
         this.mapService.create(map).subscribe((resp: APIResp) => {
-          const newID = resp.data._id;
-          /*this.mapService.updateID(newID);
-          this.router.navigate([],  {
-              relativeTo: this.route,
-              arams: {'map-id': newID},
-              queryParamsHandling: 'merge'
-          });*/
-          //window.location.href = window.location.href.replace('new', newID);
+          this.mapID = resp.data._id;
+          this.mapService.updateID(this.mapID);
+          this.router.navigate(['games', this.gameID, 'maps', this.mapID])
         });
+      } else {
+        this.mapService.update(map).subscribe();
       }
 
     }
+
 
   }
 

@@ -41,8 +41,32 @@ export class MapService {
     )
   }
 
+  getOne(mapID: string): Observable<any> {
+    return this.http.get<Observable<any>>(`${this.baseURL}/${mapID}`).pipe(
+      catchError(e => throwError(() => new Error(e)))
+    )
+  }
+
+  getLayers(mapID: string): Observable<any> {
+    return this.http.get<Observable<any>>(`${this.baseURL}/${mapID}/layers`).pipe(
+      catchError(e => throwError(() => new Error(e)))
+    )
+  }
+
   create(map: Map): Observable<any> {
     return this.http.post<Observable<any>>(`${this.baseURL}`, map).pipe(
+      catchError(e => throwError(() => new Error(e)))
+    )
+  }
+
+  update(map: Map): Observable<any> {
+    return this.http.put<Observable<any>>(`${this.baseURL}/${map._id}`, map).pipe(
+      catchError(e => throwError(() => new Error(e)))
+    )
+  }
+
+  getGameMaps(gameID: string): Observable<any> {
+    return this.http.get<Observable<any>>(`${this.baseURL}/?game=${gameID}`).pipe(
       catchError(e => throwError(() => new Error(e)))
     )
   }

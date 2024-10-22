@@ -58,4 +58,8 @@ export class GameService {
     this.current = game;
   }
 
+  updateID(id: string): void {
+    this.current._id = id;
+  }
+
 }
