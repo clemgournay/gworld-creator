@@ -64,6 +64,7 @@ export class MapComponent {
     this.mapChanged.subscribe((newMap: Map) => {
       this.mapEl.nativeElement.width = newMap.screenWidth;
       this.mapEl.nativeElement.height = newMap.screenHeight;
+      console.log('CHANGED');
       this.draw();
       setTimeout(() => {
         this.draw();
@@ -358,7 +359,7 @@ export class MapComponent {
     return canvas.toDataURL();
   }
 
-  
+
   async getPreviewDataURL(): Promise<string> {
     return new Promise((resolve, reject) => {
       const canvas = document.createElement('canvas');

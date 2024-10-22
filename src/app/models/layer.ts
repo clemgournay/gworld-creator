@@ -3,4 +3,5 @@ export class Layer {
   width: number;
   height: number;
   tiles: any;
+  dataURL?: string;
 }

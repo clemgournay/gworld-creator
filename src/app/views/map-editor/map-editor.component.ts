@@ -80,22 +80,25 @@ export class MapEditorComponent {
     });
   }
 
-  buildMapFromSettings(mapSettings: MapSettings): void {
-    this.mapService.updateWidth(mapSettings.width, false);
-    this.mapService.updateHeight(mapSettings.height, false);
-    this.mapService.updateTileSize(mapSettings.tileSize, false);
+  buildMapFromSettings(mapSettings: MapSettings, propagation: boolean = false): void {
+    this.mapService.updateWidth(mapSettings.width, propagation);
+    this.mapService.updateHeight(mapSettings.height, propagation);
+    this.mapService.updateTileSize(mapSettings.tileSize, propagation);
     this.mapService.updateTitle(mapSettings.title);
     if (!mapSettings.showGrid) this.mapService.hideGrid();
 
     this.grid = new Grid(mapSettings.width, mapSettings.height, mapSettings.tileSize);
     for (let x = 0; x < mapSettings.layers.length; x++) {
-      const tiles = mapSettings.layers[x].tiles;
+      const tiles = mapSettings.layers[x].tiles ? mapSettings.layers[x].tiles : mapSettings.layers[x];
       for (let coor in tiles) {
         const content = tiles[coor];
         const coordinates = ParseCoordinates(coor);
         this.grid.updateTileContentInLayer(x, coordinates.i, coordinates.j, content);
       }
     }
+
+    console.log(this.grid);
+
   }
 
   loadingComplete(): void {
@@ -109,14 +112,16 @@ export class MapEditorComponent {
       this.mapID = mapID;
       this.mapService.updateID(this.mapID);
 
-      this.mapService.getOne(mapID).subscribe((resp: APIResp) => {
-        const mapSettings = resp.data;
-        this.mapService.getLayers(mapID).subscribe((resp: APIResp) => {
-          mapSettings.layers = resp.data;
-          console.log('MAP SETTINGS FROM SERVER', mapSettings)
-          this.buildMapFromSettings(mapSettings);
-        })
-      });
+      if (this.mapID !== 'new') {
+        this.mapService.getOne(mapID).subscribe((resp: APIResp) => {
+          const mapSettings = resp.data;
+          this.mapService.getLayers(mapID).subscribe((resp: APIResp) => {
+            mapSettings.layers = resp.data;
+            console.log('[MAP SETTINGS FROM SERVER]', mapSettings)
+            this.buildMapFromSettings(mapSettings, true);
+          })
+        });
+      }
     }
   }
 
@@ -174,7 +179,7 @@ export class MapEditorComponent {
       mapSettings.layers.push({tiles: tileData, dataURL: this.mapComp.getLayerDataURL(x)});
       map.layers.push(tileData);
     }
-    if (prevShowGrid) this.mapService.showGrid();
+    if (prevShowGrid) this.mapService.showGrid()
 
 
     this.gameSettings = {

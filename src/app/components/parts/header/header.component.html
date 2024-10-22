@@ -9,19 +9,23 @@
     <input type="text" [(ngModel)]="mapTitle" (change)="updateMapTitle()"/>
   </div>
 
-  <div class="controls" *ngIf="view === 'editor'">
-    <button class="btn"  *ngIf="!isPlaying() && !isDemo()" (click)="save()" >
-      <fa-icon [icon]="faFloppyDisk"></fa-icon>
-      <span>Save</span>
-    </button>
-    <button class="btn primary" *ngIf="!isPlaying()" (click)="play()">
-      <fa-icon [icon]="faPlay"></fa-icon>
-      <span>Play</span>
-    </button>
-    <button class="btn red" *ngIf="isPlaying()" (click)="stop()">
-      <fa-icon [icon]="faCircleStop"></fa-icon>
-      <span>Stop</span>
-    </button>
+  <div class="controls">
+    @if (view === 'editor') {
+      <button class="btn"  *ngIf="!isPlaying() && !isDemo()" (click)="save()" >
+        <fa-icon [icon]="faFloppyDisk"></fa-icon>
+        <span>Save</span>
+      </button>
+      <button class="btn primary" *ngIf="!isPlaying()" (click)="play()">
+        <fa-icon [icon]="faPlay"></fa-icon>
+        <span>Play</span>
+      </button>
+    } @else if (view === 'game') {
+      <button class="btn red" *ngIf="isPlaying()" (click)="stop()">
+        <fa-icon [icon]="faCircleStop"></fa-icon>
+        <span>Stop</span>
+      </button>
+    }
+
   </div>
 
 </header>
