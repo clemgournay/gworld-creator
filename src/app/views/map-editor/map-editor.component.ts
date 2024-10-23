@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subject, Subscription } from 'rxjs';
+import { last, lastValueFrom, Subject, Subscription } from 'rxjs';
 
 import { SharedModule } from '@shared/shared.module';
 
@@ -22,6 +22,7 @@ import { MapComponent } from '@components/parts/map/map.component';
 import { MapbarComponent } from '@components/parts/mapbar/mapbar.component';
 import { APIResp } from '@models/api-resp';
 import { AppService } from '@services/app.service';
+import { TilesetService } from '@services/tileset.service';
 
 @Component({
   standalone: true,
@@ -42,6 +43,8 @@ export class MapEditorComponent {
   mapChanged: Subject<Map>;
   gameSettings: GameSettings;
 
+  tilesetsToLoad: Array<string> = [];
+
   gameID: string = 'new';
   mapID: string = 'new';
 
@@ -53,6 +56,7 @@ export class MapEditorComponent {
     private appService: AppService,
     private gameService: GameService,
     private mapService: MapService,
+    private tilesetService: TilesetService,
     private charsetService: CharsetService,
     private characterService: CharacterService
   ) {
@@ -81,6 +85,7 @@ export class MapEditorComponent {
   }
 
   buildMapFromSettings(mapSettings: MapSettings, propagation: boolean = false): void {
+    this.tilesetsToLoad = [];
     this.mapService.updateWidth(mapSettings.width, propagation);
     this.mapService.updateHeight(mapSettings.height, propagation);
     this.mapService.updateTileSize(mapSettings.tileSize, propagation);
@@ -94,6 +99,9 @@ export class MapEditorComponent {
         const content = tiles[coor];
         const coordinates = ParseCoordinates(coor);
         this.grid.updateTileContentInLayer(x, coordinates.i, coordinates.j, content);
+        if (content.tileset && this.tilesetsToLoad.indexOf(content.tileset) === -1) {
+          this.tilesetsToLoad.push(content.tileset);
+        }
       }
     }
 
@@ -101,27 +109,40 @@ export class MapEditorComponent {
 
   }
 
-  loadingComplete(): void {
+  async loadingComplete(): Promise<void> {
     const gameID = this.route.snapshot.paramMap.get('game-id');
     const mapID = this.route.snapshot.paramMap.get('map-id');
+
+
     if (gameID) {
       this.gameID = gameID;
       this.gameService.updateID(gameID);
+      const game$ = this.gameService.getOne(gameID);
+      const resp: APIResp = await lastValueFrom(game$);
+      this.gameService.setCurrent(resp.data);
+      
     }
     if (mapID) {
       this.mapID = mapID;
       this.mapService.updateID(this.mapID);
 
       if (this.mapID !== 'new') {
-        this.mapService.getOne(mapID).subscribe((resp: APIResp) => {
-          const mapSettings = resp.data;
-          this.mapService.getLayers(mapID).subscribe((resp: APIResp) => {
-            mapSettings.layers = resp.data;
-            console.log('[MAP SETTINGS FROM SERVER]', mapSettings)
-            this.buildMapFromSettings(mapSettings, true);
-          })
+        const map$ = this.mapService.getOne(mapID);
+        const resp: APIResp = await lastValueFrom(map$);
+        const mapSettings = resp.data;
+        this.mapService.getLayers(mapID).subscribe(async (resp: APIResp) => {
+          mapSettings.layers = resp.data;
+          console.log('[MAP SETTINGS FROM SERVER]', mapSettings)
+          this.buildMapFromSettings(mapSettings, true);
+          await this.loadAssets();
         });
       }
+    }
+  }
+
+  async loadAssets(): Promise<void> {
+    for (let id of this.tilesetsToLoad) {
+      await this.tilesetService.loadTilesetImage(id);
     }
   }
 
@@ -141,6 +162,8 @@ export class MapEditorComponent {
     const game = this.gameService.getCurrent();
     const character = this.characterService.getMain();
     const charset = this.charsetService.getCurrent();
+
+    console.log('ON SAVE GAME', game);
 
     const mapSettings: MapSettings = {
       _id: map._id,
@@ -214,7 +237,7 @@ export class MapEditorComponent {
 
   async play(): Promise<void> {
     await this.save();
-    const routes = this.isDemo() ? ['map-editor', 'play'] : ['games', 'new', 'maps', 'new', 'play'];
+    const routes = this.isDemo() ? ['map-editor', 'play'] : ['games', this.gameID, 'maps', this.mapID, 'play'];
     this.router.navigate(routes, {state: {gameSettings: this.gameSettings}});
   }
 

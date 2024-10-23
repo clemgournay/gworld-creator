@@ -16,15 +16,13 @@ export class Camera {
     this.height = this.game.screenHeight;
   }
 
-
-
   update() {
 
     const map = this.game.currentMap;
     const mainCharacter = map.mainCharacter;
 
     if (map.screenWidth < this.game.screenWidth) {
-      this.x = Math.round((this.game.screenWidth/2) - (map.screenWidth/2));
+      //this.x = Math.round((this.game.screenWidth/2) - (map.screenWidth/2));
     } else {
 
       const halfScreenWidth = Math.round(this.game.screenWidth/2)
@@ -35,8 +33,10 @@ export class Camera {
       }
     }
 
+    console.log(map.screenHeight, this.game.screenHeight)
     if (map.screenHeight < this.game.screenHeight) {
-      this.y = Math.round((this.game.screenHeight/2) - (map.screenHeight/2));
+      const diff = this.game.screenHeight - map.screenHeight;
+      this.y = -diff;
     } else {
       const halfScreenHeight = Math.round(this.game.screenHeight/2)
       const startFollowingY = halfScreenHeight;

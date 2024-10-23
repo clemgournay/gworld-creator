@@ -35,11 +35,10 @@ export class PlayComponent {
     if (state.gameSettings) {
       this.gameSettings = state.gameSettings;
       const mapSettings = this.gameSettings.maps[0];
-      console.log(mapSettings);
       this.mapService.updateTitle(mapSettings.title);
     } else {
       const isDemo = window.location.href.includes('map-editor');
-      const routes = isDemo ? ['map-editor'] : ['games', 'new', 'maps', 'new'];
+      const routes = isDemo ? ['map-editor'] : ['games', this.gameSettings._id, 'maps', this.gameSettings.maps[0]._id];
       this.router.navigate(routes);
     }
   }
@@ -47,7 +46,7 @@ export class PlayComponent {
 
   stop(): void {
     const isDemo = window.location.href.includes('map-editor');
-    const routes = isDemo ? ['map-editor'] : ['games', 'new', 'maps', 'new'];
+    const routes = isDemo ? ['map-editor'] : ['games', this.gameSettings._id, 'maps', this.gameSettings.maps[0]._id];
     this.router.navigate(routes, {state: {gameSettings: this.gameSettings}});
   }
 }
