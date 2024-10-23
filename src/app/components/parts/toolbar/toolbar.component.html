@@ -13,8 +13,8 @@
       </div>
 
       <div class="box tileset-cont" [class.expand]="hovering" (mouseenter)="onTilesetEnter()" (mouseleave)="onTilesetLeave()"
-        [style.width]="hovering ? (getCurrentTileset().screenWidth + 10) + 'px' : '255px'"
-        [style.height]="hovering ? (getCurrentTileset().screenHeight + 10) + 'px' : 'calc(100% - 100px)'"
+        [style.width]="hovering ? (getCurrentTileset().screenWidth + 10) + 'px' : '265px'"
+        [style.height]="hovering ? (getCurrentTileset().screenHeight + 10) + 'px' : 'calc(100% - 150px)'"
       >
         <div class="tileset">
 
@@ -45,13 +45,13 @@
       </div>
 
       <div class="tileset-options">
-        <button type="button">
+        <button type="button" class="btn">
           <fa-icon [icon]="faSquarePlus"></fa-icon>
           <span>Add</span>
         </button>
-        <button type="button">
+        <button type="button" class="btn" (click)="tilesetEditionModal.open()">
           <fa-icon [icon]="faPenToSquare"></fa-icon>
-          <span>Add</span>
+          <span>Edit</span>
         </button>
       </div>
     </div>
@@ -91,3 +91,5 @@
   </div>
 
 </div>
+
+<modal-tileset-edition #tilesetEditionModal></modal-tileset-edition>

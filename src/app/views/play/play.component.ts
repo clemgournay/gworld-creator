@@ -40,7 +40,7 @@ export class PlayComponent {
       const isDemo = window.location.href.includes('map-editor');
       const routes = isDemo ? ['map-editor'] : ['games', this.gameSettings._id, 'maps', this.gameSettings.maps[0]._id];
       console.log('NO GAME SETTINGS, come back');
-      //this.router.navigate(routes);
+      this.router.navigate(routes);
     }
   }
 

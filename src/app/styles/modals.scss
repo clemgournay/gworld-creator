@@ -49,7 +49,7 @@
     transform: scale(0);
     transition: all 0.3s ease-out;
     width: 800px;
-    min-height: 500px;
+    max-height: 90%;
     background: $backgroundPrimary;
     box-shadow: 0px 0px 0px $mainColor;
     animation: 20s breathe 0.3s infinite;
@@ -86,6 +86,9 @@
 
     .content {
       padding: 20px;
+      min-height: 500px;
+      height: 500px;
+      overflow: auto;
     }
 
     .footer {

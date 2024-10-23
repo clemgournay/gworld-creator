@@ -16,8 +16,13 @@
   }
 
   .section {
-    padding: 20px;
+    padding: 10px;
     border-bottom: 1px solid $borderColor;
+
+    h2 {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
 
     &.tileset-box {
       height: calc(100% - 200px);
@@ -45,11 +50,20 @@
       }
     }
 
+    .tileset-options {
+      width: 100%;
+      display: flex;
+      gap: 10px;
+      .btn {
+        width: 50%;
+      }
+    }
+
     .box {
       background-color: $backgroundTiertiary;
       width: 100%;
       border-radius: 5px;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
       overflow: hidden;
 
       &.tileset-cont {

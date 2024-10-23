@@ -1,0 +1,34 @@
+@import '../../../styles/theme.scss';
+@import '../../../styles/modals.scss';
+
+.modal {
+  .window {
+    .content {
+      height: 500px;
+
+      .tileset {
+        position: relative;
+        width: 100%;  
+        background: $backgroundTiertiary;
+        
+        .grid {
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 100%;
+          height: 100%;
+
+          .tile {
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 34px;
+            color: $secondColor;
+            border: 1px solid $secondColor;
+          }
+        }
+      }
+    }
+  }
+}

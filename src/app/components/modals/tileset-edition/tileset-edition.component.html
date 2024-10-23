@@ -1,0 +1,27 @@
+<div class="modal" [class.opened]="opened">
+    <div class="window">
+      <div class="header">
+        <fa-icon class="icon" [icon]="faPenToSquare"></fa-icon>
+        <span>{{title}}</span>
+        <fa-icon class="close" [icon]="faTimes" (click)="close()"></fa-icon>
+      </div>
+      <div class="content">
+        <div class="tileset">
+          <img *ngIf="getTileset()" [src]="getTileset().src">
+          <div class="grid" *ngIf="grid && grid.layers.length > 0">
+            @for (tile of grid.getTilesArray(); track tile) {
+              <div class="tile" 
+                [style.left]="(tile.i * tile.size) + 'px'"  
+                [style.top]="(tile.j * tile.size) +'px'"
+                [style.width]="tile.size + 'px'"
+                [style.height]="tile.size + 'px'"
+              >
+              <fa-icon [icon]="tile.content && tile.content.collider ? faCircle : faTimes"></fa-icon>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

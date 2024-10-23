@@ -14,12 +14,14 @@ import { Subject } from 'rxjs';
 import { Charset } from '@models/charset';
 import { CharsetService } from '@services/charset.service';
 import { faPenToSquare, faSquarePlus } from '@fortawesome/free-solid-svg-icons';
+import { TilesetEditiontModalComponent } from '@components/modals/tileset-edition/tileset-edition.component';
 
 @Component({
   selector: 'app-toolbar',
   standalone: true,
   imports: [
-    SharedModule
+    SharedModule,
+    TilesetEditiontModalComponent
   ],
   templateUrl: './toolbar.component.html',
   styleUrl: './toolbar.component.scss'

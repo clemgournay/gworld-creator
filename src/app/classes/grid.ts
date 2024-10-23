@@ -14,11 +14,11 @@ export class Grid {
   currentLayer: Layer;
   tiles: any;
 
-  constructor(width: number, height: number, tileSize: number) {
+  constructor(width: number, height: number, tileSize: number, nbLayers: number = 3) {
     this.width = width;
     this.height = height;
     this.tileSize = tileSize;
-    this.nbLayers = 3;
+    this.nbLayers = nbLayers;
     this.layers = [];
     this.buildLayers();
   }
@@ -66,6 +66,14 @@ export class Grid {
 
   getTiles(): any {
     return this.currentLayer.tiles;
+  }
+
+  getTilesArray(): Array<Tile> {
+    let tiles = [];
+    for (let coor in this.currentLayer.tiles) {
+      tiles.push(this.currentLayer.tiles[coor]);
+    }
+    return tiles;
   }
 
   tileExists(i: number, j: number): boolean {
