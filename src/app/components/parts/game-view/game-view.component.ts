@@ -26,7 +26,6 @@ export class GameViewComponent {
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-      console.log('GAME VIEW SETTINGS', this.settings);
       this.game = new Game(this.settings);
       console.log('[GAME]', this.game);
       this.game.run();

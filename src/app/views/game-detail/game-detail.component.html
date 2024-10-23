@@ -2,7 +2,7 @@
 <main>
   <div class="controls">
     <button type="button" class="btn primary" [routerLink]="'./maps/new'">
-      <fa-icon [icon]="faTableCells"></fa-icon>
+      <fa-icon [icon]="faFile"></fa-icon>
       <span>New map</span>
     </button>
   </div>
@@ -15,9 +15,17 @@
       </p>
     } @else {
       <div class="items">
-        @for (map of maps; track map._id) {
+        @for (map of maps; track map._id; let i = $index) {
           <div class="item" [routerLink]="'./maps/' + map._id">
             <div class="preview-cont">
+              <div class="controls">
+                <button type="button" class="edit">
+                  <fa-icon [icon]="faPenToSquare"></fa-icon>
+                </button>
+                <button type="button" class="delete" (click)="remove(map, i)">
+                  <fa-icon [icon]="faTrash"></fa-icon>
+                </button>
+              </div>
               @if (map.preview) {
                 <div class="preview" [style.backgroundImage]="'url(' + map.preview + ')'"></div>
               } @else {

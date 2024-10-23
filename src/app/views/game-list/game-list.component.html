@@ -15,9 +15,17 @@
       </p>
     } @else {
       <div class="items">
-        @for (game of games; track game._id) {
+        @for (game of games; track game._id; let i = $index) {
           <div class="item" [routerLink]="'./' + game._id">
             <div class="preview-cont">
+              <div class="controls">
+                <button type="button" class="edit">
+                  <fa-icon [icon]="faPenToSquare"></fa-icon>
+                </button>
+                <button type="button" class="delete" (click)="remove(game, i)">
+                  <fa-icon [icon]="faTrash"></fa-icon>
+                </button>
+              </div>
               @if (game.preview) {
                 <div class="preview" [style.backgroundImage]="'url(' + game.preview + ')'"></div>
               } @else {

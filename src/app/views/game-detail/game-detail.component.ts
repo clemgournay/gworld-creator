@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 
-import { faTableCells } from '@fortawesome/free-solid-svg-icons';
+import { faFile, faPen, faPenToSquare, faTableCells, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 import { APIResp } from '@models/api-resp';
 import { Game } from '@models/game';
@@ -35,7 +35,9 @@ export class GameDetailComponent {
   maps: Array<Map> = [];
 
   // Icons
-  faTableCells = faTableCells;
+  faFile = faFile;
+  faPenToSquare = faPenToSquare;
+  faTrash = faTrash;
 
   constructor(
     private route: ActivatedRoute,
@@ -61,12 +63,17 @@ export class GameDetailComponent {
         this.title = this.game.title;
         this.gameService.setCurrent(this.game);
 
-        this.mapService.getGameMaps(gameID).subscribe((resp: APIResp) => {
+        this.mapService.getByGame(gameID).subscribe((resp: APIResp) => {
           this.maps = resp.data;
         });
       });
     }
 
+  }
+
+  remove(map: Map, index: number): void {
+    this.mapService.delete(map._id).subscribe();
+    this.maps.splice(index, 1);
   }
 
 

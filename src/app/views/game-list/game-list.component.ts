@@ -1,14 +1,16 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { faGamepad, faPen, faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
+
 import { GameCreationModalComponent } from '@components/modals/game-creation/game-creation.component';
 import { HeaderComponent } from '@components/parts/header/header.component';
-import { faGamepad } from '@fortawesome/free-solid-svg-icons';
 import { APIResp } from '@models/api-resp';
 import { Game } from '@models/game';
+
 import { AppService } from '@services/app.service';
 import { GameService } from '@services/game.service';
 import { SharedModule } from '@shared/shared.module';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-game-list',
@@ -30,6 +32,8 @@ export class GameListComponent {
 
   // Icons
   faGamepad = faGamepad;
+  faPenToSquare = faPenToSquare;
+  faTrash = faTrash;
 
   constructor(
     private appService: AppService,
@@ -49,6 +53,12 @@ export class GameListComponent {
 
   newGame(game: Game): void {
     this.games.push(game);
+  }
+
+
+  remove(game: Game, index: number): void {
+    this.gameService.delete(game._id).subscribe();
+    this.games.splice(index, 1);
   }
 
 }

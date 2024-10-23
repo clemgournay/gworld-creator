@@ -13,6 +13,7 @@ import { ToolService } from '@services/tool.service';
 import { Subject } from 'rxjs';
 import { Charset } from '@models/charset';
 import { CharsetService } from '@services/charset.service';
+import { faPenToSquare, faSquarePlus } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-toolbar',
@@ -39,6 +40,10 @@ export class toolbarComponent {
 
 
   @Output('requestEraseLayer') requestEraseLayer = new EventEmitter<void>();
+
+  // Icons
+  faSquarePlus = faSquarePlus;
+  faPenToSquare = faPenToSquare;
 
   constructor(
     private toolService: ToolService,

@@ -50,12 +50,37 @@ export class View {
 
   drawLayer(layer: Layer): void {
     const camera = this.game.camera;
+
+    const map = this.game.currentMap;
+    let targetX = camera.x;
+    let targetY = camera.y;
+    let targetW = this.game.screenWidth;
+    let targetH = this.game.screenHeight;
+
+    let destX = 0, destY = 0;
+    let destW = this.viewEl.width;
+    let destH = this.viewEl.height;
+
+    if (map.screenWidth < this.game.screenWidth) {
+      targetX = 0;
+      targetW = map.screenWidth;
+      destX = Math.round((this.game.screenWidth)/2 - (map.screenWidth/2));
+      destW = map.screenWidth;
+    }
+
+    if (map.screenHeight < this.game.screenHeight) {
+      targetY = 0;
+      targetH = map.screenHeight;
+      destY = Math.round((this.game.screenHeight/2) - (map.screenHeight/2));
+      destH = map.screenHeight;
+    }
+
     this.ctx.drawImage(
       layer.img,
-      camera.x, camera.y,
-      this.game.screenWidth, this.game.screenHeight,
-      0, 0,
-      this.viewEl.width, this.viewEl.height
+      targetX, targetY,
+      targetW, targetH,
+      destX, destY,
+      destW, destH
     );
   }
 

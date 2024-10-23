@@ -10,8 +10,17 @@ export class MainCharacter extends Character {
 
   constructor(game: Game, map: Map, i: number, j: number, charsetSettings: CharsetSettings) {
     super(game, map, i, j, charsetSettings);
-    this.screenX = this.x;
-    this.screenY = this.y;
+
+    let offsetX = 0, offsetY = 0;
+    if (map.screenWidth < this.game.screenWidth) {
+      offsetX = Math.round((this.game.screenWidth/2) - (map.screenWidth/2));
+    }
+    if (map.screenHeight < this.game.screenHeight) {
+      offsetY = Math.round((this.game.screenHeight/2) - (map.screenHeight/2));
+    }
+
+    this.screenX = offsetX + this.x;
+    this.screenY = offsetY + this.y;
   }
 
 

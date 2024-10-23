@@ -50,6 +50,12 @@ export class GameService {
     )
   }
 
+  delete(id: string): Observable<any> {
+    return this.http.delete<Observable<any>>(`${this.baseURL}/${id}`).pipe(
+      catchError(e => throwError(() => new Error(e)))
+    )
+  }
+
   getCurrent(): Game {
     return this.current;
   }

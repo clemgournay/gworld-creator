@@ -41,14 +41,14 @@ export class MapService {
     )
   }
 
-  getOne(mapID: string): Observable<any> {
-    return this.http.get<Observable<any>>(`${this.baseURL}/${mapID}`).pipe(
+  getOne(id: string): Observable<any> {
+    return this.http.get<Observable<any>>(`${this.baseURL}/${id}`).pipe(
       catchError(e => throwError(() => new Error(e)))
     )
   }
 
-  getLayers(mapID: string): Observable<any> {
-    return this.http.get<Observable<any>>(`${this.baseURL}/${mapID}/layers`).pipe(
+  getLayers(id: string): Observable<any> {
+    return this.http.get<Observable<any>>(`${this.baseURL}/${id}/layers`).pipe(
       catchError(e => throwError(() => new Error(e)))
     )
   }
@@ -65,8 +65,14 @@ export class MapService {
     )
   }
 
-  getGameMaps(gameID: string): Observable<any> {
-    return this.http.get<Observable<any>>(`${this.baseURL}/?game=${gameID}`).pipe(
+  getByGame(game: string): Observable<any> {
+    return this.http.get<Observable<any>>(`${this.baseURL}/?game=${game}`).pipe(
+      catchError(e => throwError(() => new Error(e)))
+    )
+  }
+
+  delete(id: string): Observable<any> {
+    return this.http.delete<Observable<any>>(`${this.baseURL}/${id}`).pipe(
       catchError(e => throwError(() => new Error(e)))
     )
   }
