@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { SharedModule } from '@shared/shared.module';
@@ -23,6 +23,9 @@ import { HeaderComponent } from '@components/parts/header/header.component';
 export class PlayComponent {
 
   gameSettings: GameSettings;
+
+  @ViewChild('gameView') gameViewEl: GameViewComponent;
+
   constructor(
     private router: Router,
     private mapService: MapService
@@ -49,5 +52,6 @@ export class PlayComponent {
     const isDemo = window.location.href.includes('map-editor');
     const routes = isDemo ? ['map-editor'] : ['games', this.gameSettings._id, 'maps', this.gameSettings.maps[0]._id];
     this.router.navigate(routes, {state: {gameSettings: this.gameSettings}});
+    this.gameViewEl.stopGame();
   }
 }

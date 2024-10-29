@@ -1,6 +1,6 @@
 import { Directive, Input } from '@angular/core';
 
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faInfo, faTimes } from '@fortawesome/free-solid-svg-icons';
 
 @Directive()
 export class ModalAbstractComponent {
@@ -10,6 +10,7 @@ export class ModalAbstractComponent {
   opened: boolean = false;
 
   // Icons
+  headerIcon = faInfo;
   faTimes = faTimes;
 
   constructor() {

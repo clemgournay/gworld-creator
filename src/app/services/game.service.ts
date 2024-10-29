@@ -45,7 +45,9 @@ export class GameService {
   }
 
   create(game: Game): Observable<any> {
-    return this.http.post<Observable<any>>(`${this.baseURL}`, game).pipe(
+    const data: any = game;
+    delete data._id;
+    return this.http.post<Observable<any>>(`${this.baseURL}`, data).pipe(
       catchError(e => throwError(() => new Error(e)))
     )
   }

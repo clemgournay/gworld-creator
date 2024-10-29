@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { faGamepad, faPen, faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
 
-import { GameCreationModalComponent } from '@components/modals/game-creation/game-creation.component';
+import { GameEditionModalComponent } from '@components/modals/game-edition/game-edition.component';
 import { HeaderComponent } from '@components/parts/header/header.component';
 import { APIResp } from '@models/api-resp';
 import { Game } from '@models/game';
@@ -18,7 +18,7 @@ import { SharedModule } from '@shared/shared.module';
   imports: [
     SharedModule,
     HeaderComponent,
-    GameCreationModalComponent
+    GameEditionModalComponent
   ],
   templateUrl: './game-list.component.html',
   styleUrl: './game-list.component.scss'

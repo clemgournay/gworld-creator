@@ -1,5 +1,6 @@
 export class Tileset {
-  id: string;
+  _id: string;
+  title: string;
   src: string;
   width: number;
   height: number;

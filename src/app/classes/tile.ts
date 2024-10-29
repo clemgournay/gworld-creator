@@ -22,4 +22,8 @@ export class Tile {
     this.content = content;
   }
 
+  updateSize(size: number): void {
+    this.size = size;
+  }
+
 }

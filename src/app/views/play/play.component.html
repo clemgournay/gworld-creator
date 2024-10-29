@@ -1,6 +1,6 @@
 <app-header [view]="'game'" (requestStop)="stop()"></app-header>
 <main>
   <div class="game-view-cont" *ngIf="gameSettings">
-    <app-game-view [settings]="gameSettings"></app-game-view>
+    <app-game-view [settings]="gameSettings" #gameView></app-game-view>
   </div>
 </main>

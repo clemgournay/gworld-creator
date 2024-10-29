@@ -1,4 +1,4 @@
-<app-header [view]="'editor'" (requestSave)="save()" (requestPlay)="play()"></app-header>
+<app-header [view]="'editor'" (requestMusicEdition)="musicEditionModal.open()" (requestSave)="save()" (requestPlay)="play()"></app-header>
 <app-toolbar (requestEraseLayer)="eraseLayer()"></app-toolbar>
 <main>
   <div class="map-cont">
@@ -6,3 +6,5 @@
   </div>
 </main>
 <app-mapbar [grid]="grid" (switchedLayer)="layerSwitched()"></app-mapbar>
+
+<modal-music-edition #musicEditionModal></modal-music-edition>

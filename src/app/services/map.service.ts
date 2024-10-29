@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 
 import { Map } from '@models/map';
+import { Layer } from '@models/layer';
 
 @Injectable({
   providedIn: 'root',
@@ -54,7 +55,9 @@ export class MapService {
   }
 
   create(map: Map): Observable<any> {
-    return this.http.post<Observable<any>>(`${this.baseURL}`, map).pipe(
+    const data: any = map;
+    delete data._id;
+    return this.http.post<Observable<any>>(`${this.baseURL}`, data).pipe(
       catchError(e => throwError(() => new Error(e)))
     )
   }
@@ -107,6 +110,15 @@ export class MapService {
   updateTileSize(tileSize: number, propagation: boolean = true): void {
     this.current.tileSize = tileSize;
     if (propagation) this.changes.next(this.current);
+  }
+
+  updateLayers(layers: Array<Layer>, propagation: boolean = true): void {
+    this.current.layers = layers;
+    if (propagation) this.changes.next(this.current);
+  }
+
+  setCurrent(map: Map): void {
+    this.current = map;
   }
 
   showGrid(): void {

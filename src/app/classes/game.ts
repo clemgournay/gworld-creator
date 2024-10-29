@@ -1,12 +1,9 @@
 import { GameSettings } from '@models/game-settings';
 import { View } from '@classes/view';
 import { Map } from '@classes/map';
-import { MainCharacter } from './main-character';
 import { InputManager } from './input-manager';
 import { Camera } from './camera';
-import { Rect } from '@models/rect';
 import { Intersects } from '@utils/geometry';
-import { Tile } from './tile';
 
 export class Game {
 
@@ -19,6 +16,7 @@ export class Game {
   camera: Camera;
   inputManager: InputManager;
   helpers: boolean;
+  mainLoop: number;
 
   constructor(settings: GameSettings) {
     this.settings = settings;
@@ -49,7 +47,7 @@ export class Game {
     this.camera.update();
     this.view.update();
 
-    requestAnimationFrame(() => {
+    this.mainLoop = requestAnimationFrame(() => {
       this.update();
     });
 
@@ -169,4 +167,7 @@ export class Game {
     return collisionSide;
   }
 
+  stop(): void {
+    window.cancelAnimationFrame(this.mainLoop);
+  }
 }

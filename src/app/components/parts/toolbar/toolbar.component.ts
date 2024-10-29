@@ -1,4 +1,6 @@
 import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
+import { faPenToSquare, faSquarePlus } from '@fortawesome/free-solid-svg-icons';
+import { Subject, Subscription } from 'rxjs';
 
 import { SharedModule } from '@shared/shared.module';
 
@@ -6,14 +8,14 @@ import { Area } from '@models/area';
 import { Coordinate } from '@models/coordinate';
 import { Tileset } from '@models/tileset';
 import { Tool } from '@models/tool';
+import { Charset } from '@models/charset';
+
 
 import { SelectionService } from '@services/selection.service';
 import { TilesetService } from '@services/tileset.service';
 import { ToolService } from '@services/tool.service';
-import { Subject } from 'rxjs';
-import { Charset } from '@models/charset';
 import { CharsetService } from '@services/charset.service';
-import { faPenToSquare, faSquarePlus } from '@fortawesome/free-solid-svg-icons';
+
 import { TilesetEditiontModalComponent } from '@components/modals/tileset-edition/tileset-edition.component';
 
 @Component({
@@ -28,6 +30,7 @@ import { TilesetEditiontModalComponent } from '@components/modals/tileset-editio
 })
 export class toolbarComponent {
 
+  tilesetChanged: Subject<Tileset>;
   @ViewChild('gridEl') gridEl: ElementRef;
 
   ctx: CanvasRenderingContext2D;
@@ -40,6 +43,7 @@ export class toolbarComponent {
 
   selectedTilesetID: string;
 
+  @ViewChild('tilesetEditionModal') tilesetEditionModal: TilesetEditiontModalComponent;
 
   @Output('requestEraseLayer') requestEraseLayer = new EventEmitter<void>();
 
@@ -53,9 +57,8 @@ export class toolbarComponent {
     private charsetService: CharsetService,
     private selectionService: SelectionService
   ) {
+    this.tilesetChanged = this.tilesetService.getChanges();
 
-    const tileset = this.tilesetService.getCurrent();
-    this.selectedTilesetID = tileset.id;
     this.cursorArea = {
       i: 0,
       j: 0,
@@ -63,9 +66,24 @@ export class toolbarComponent {
       y: 0,
       width: 1,
       height: 1,
-      screenWidth: tileset.tileSize,
-      screenHeight: tileset.tileSize
-    }
+      screenWidth: 0,
+      screenHeight: 0
+    };
+
+    this.tilesetChanged.subscribe((newTileset: Tileset) => {
+      this.selectedTilesetID = newTileset._id;
+      console.log('NEW TILESET', newTileset)
+      this.cursorArea = {
+        i: 0,
+        j: 0,
+        x: 0,
+        y: 0,
+        width: 1,
+        height: 1,
+        screenWidth: newTileset.tileSize,
+        screenHeight: newTileset.tileSize
+      }
+    });
   }
 
   getSelectionArea(): Area {
@@ -156,5 +174,15 @@ export class toolbarComponent {
 
   isSmallSize(): boolean {
     return window.innerHeight <= 900;
+  }
+
+  openTilesetCreation(): void {
+    this.tilesetEditionModal.switchView('creation');
+    this.tilesetEditionModal.open();
+  }
+
+  openTilesetEdition(): void {
+    this.tilesetEditionModal.switchView('edition');
+    this.tilesetEditionModal.open();
   }
 }

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { faCircleStop, faFloppyDisk, faPlay } from '@fortawesome/free-solid-svg-icons';
+import { faCircleStop, faFloppyDisk, faMusic, faPlay } from '@fortawesome/free-solid-svg-icons';
 import { Map } from '@models/map';
 import { AppService } from '@services/app.service';
 import { MapService } from '@services/map.service';
@@ -24,11 +24,13 @@ export class HeaderComponent {
   @Output('requestSave') requestSave = new EventEmitter<void>();
   @Output('requestPlay') requestPlay = new EventEmitter<void>();
   @Output('requestStop') requestStop = new EventEmitter<void>();
+  @Output('requestMusicEdition') requestMusicEdition = new EventEmitter<void>();
 
   // Icons
   faFloppyDisk = faFloppyDisk;
   faPlay = faPlay;
   faCircleStop = faCircleStop;
+  faMusic = faMusic;
 
   constructor(
     private appService: AppService,
@@ -64,6 +66,10 @@ export class HeaderComponent {
 
   updateMapTitle(): void {
     this.mapService.updateTitle(this.mapTitle);
+  }
+
+  openMusicEdition(): void {
+    this.requestMusicEdition.emit();
   }
 
 }

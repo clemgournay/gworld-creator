@@ -77,8 +77,13 @@
 
         .tileset {
           position: relative;
-          z-index: 10;
+          z-index: 2;
           background:  $backgroundTiertiary;
+
+          img {
+            position: relative;
+            z-index: 1;
+          }
 
           #grid {
             position: absolute;
@@ -93,7 +98,7 @@
             box-shadow: 0px 0px 10px $mainColor;
             background-color: $secondColor;
             opacity: 0.8;
-            z-index: 2;
+            z-index: 3;
             pointer-events: none;
 
           }
@@ -102,7 +107,7 @@
             position: absolute;
             background-color: $secondColor;
             opacity: 0.6;
-            z-index: 2;
+            z-index: 3;
             pointer-events: none;
           }
         }

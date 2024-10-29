@@ -71,7 +71,7 @@ export class MapComponent {
       });
     });
 
-    this.tilesetChanged.subscribe((tilset: Tileset) => {
+    this.tilesetChanged.subscribe((tileset: Tileset) => {
       this.draw();
     });
 
@@ -95,7 +95,6 @@ export class MapComponent {
 
   drawTiles(): void {
     const map = this.mapService.getCurrent();
-
     for (let layer of this.grid.getLayers()) {
       const tiles = layer.getTiles();
       for (let coor in tiles) {
@@ -221,7 +220,7 @@ export class MapComponent {
         const contentCoor: string = content[selectCoor];
         const coordinates: Coordinate = ParseCoordinates(contentCoor);
         const collider: boolean = tileset.colliders !== undefined && tileset.colliders.indexOf(contentCoor) >= 0;
-        const tileContent: TileContent = {tileset: tileset.id, i: coordinates.i, j: coordinates.j, collider};
+        const tileContent: TileContent = {tileset: tileset._id, i: coordinates.i, j: coordinates.j, collider};
         if (this.grid.tileExists(i, j)) {
           this.grid.updateTileContent(i, j, tileContent);
         }
@@ -246,7 +245,7 @@ export class MapComponent {
         const contentCoor: string = content[selectCoor];
         const coordinates: Coordinate = ParseCoordinates(contentCoor);
         const collider: boolean = tileset.colliders !== undefined && tileset.colliders.indexOf(contentCoor) >= 0;
-        const tileContent: TileContent = {tileset: tileset.id, i: coordinates.i, j: coordinates.j, collider};
+        const tileContent: TileContent = {tileset: tileset._id, i: coordinates.i, j: coordinates.j, collider};
         this.grid.updateTileContent(i, j, tileContent);
         selectJ++;
         if (selectJ >= selection.height) selectJ = 0;

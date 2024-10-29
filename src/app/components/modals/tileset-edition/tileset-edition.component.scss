@@ -3,14 +3,16 @@
 
 .modal {
   .window {
+    width: 1400px;
+
     .content {
-      height: 500px;
+      height: 800px;
 
       .tileset {
         position: relative;
-        width: 100%;  
+        width: 100%;
         background: $backgroundTiertiary;
-        
+
         .grid {
           position: absolute;
           left: 0;
@@ -20,12 +22,37 @@
 
           .tile {
             position: absolute;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 34px;
+            font-size: 28px;
             color: $secondColor;
             border: 1px solid $secondColor;
+            cursor: pointer;
+
+            .ng-fa-icon {
+              position: absolute;
+              left: 0;
+              top: 0;
+              width: 100%;
+              height: 100%;
+              z-index: 1;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+            }
+
+            &:hover {
+              &:after {
+                content: '';
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                background: $secondColor;
+                opacity: 0.6;
+                z-index: 2;
+                pointer-events: none;
+              }
+            }
           }
         }
       }

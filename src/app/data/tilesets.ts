@@ -1,5 +1,5 @@
 import { Tileset } from '@models/tileset';
-
+/*
 export const TILESETS: Array<Tileset> = [{
       id: '001-Grassland',
       src: './tilesets/001-Grassland.png',
@@ -552,3 +552,4 @@ export const TILESETS: Array<Tileset> = [{
       img: new Image()
     },
 ];
+*/

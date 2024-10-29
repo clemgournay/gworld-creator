@@ -8,30 +8,30 @@ import { GameService } from '@services/game.service';
 import { SharedModule } from '@shared/shared.module';
 
 @Component({
-  selector: 'modal-game-creation',
+  selector: 'modal-game-edition',
   standalone: true,
   imports: [
     SharedModule,
     ReactiveFormsModule
   ],
-  templateUrl: './game-creation.component.html',
-  styleUrl: './game-creation.component.scss'
+  templateUrl: './game-edition.component.html',
+  styleUrl: './game-edition.component.scss'
 })
-export class GameCreationModalComponent extends ModalAbstractComponent {
+export class GameEditionModalComponent extends ModalAbstractComponent {
 
-  creationForm: FormGroup;
+  editionForm: FormGroup;
 
   @Output('created') created = new EventEmitter<Game>();
 
   // Icons
-  faGamepad = faGamepad;
   faFolderPlus = faFolderPlus;
 
   constructor(private gameService: GameService) {
     super();
     this.title = 'Game creation';
+    this.headerIcon = faGamepad;
 
-    this.creationForm = new FormGroup({
+    this.editionForm = new FormGroup({
       title: new FormControl('New game', [Validators.required]),
       screenWidth: new FormControl(1000),
       screenHeight: new FormControl(1000)
@@ -39,14 +39,13 @@ export class GameCreationModalComponent extends ModalAbstractComponent {
   }
 
   create(): void {
-    const game = this.creationForm.value as Game;
+    const game = this.editionForm.value as Game;
     this.gameService.create(game).subscribe((resp: APIResp) => {
       if (resp.data) {
         this.created.emit(resp.data);
         this.close();
       } else {
         alert('An error occured');
-
       }
     });
   }

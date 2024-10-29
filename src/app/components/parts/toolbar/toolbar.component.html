@@ -6,8 +6,8 @@
       <h2>Tilesets</h2>
       <div class="tileset-selection">
         <select [(ngModel)]="selectedTilesetID" (change)="updateTileset()">
-          @for (tileset of getTilesets(); track tileset.id) {
-            <option [value]="tileset.id">{{tileset.id}}</option>
+          @for (tileset of getTilesets(); track tileset._id) {
+            <option [value]="tileset._id">{{tileset.title}}</option>
           }
         </select>
       </div>
@@ -45,11 +45,11 @@
       </div>
 
       <div class="tileset-options">
-        <button type="button" class="btn">
+        <button type="button" class="btn" (click)="openTilesetCreation()">
           <fa-icon [icon]="faSquarePlus"></fa-icon>
           <span>Add</span>
         </button>
-        <button type="button" class="btn" (click)="tilesetEditionModal.open()">
+        <button type="button" class="btn" (click)="openTilesetEdition()">
           <fa-icon [icon]="faPenToSquare"></fa-icon>
           <span>Edit</span>
         </button>

@@ -33,4 +33,8 @@ export class GameViewComponent {
 
   }
 
+  stopGame(): void {
+    this.game.stop();
+  }
+
 }

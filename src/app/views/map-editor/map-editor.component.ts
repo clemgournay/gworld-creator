@@ -23,6 +23,7 @@ import { MapbarComponent } from '@components/parts/mapbar/mapbar.component';
 import { APIResp } from '@models/api-resp';
 import { AppService } from '@services/app.service';
 import { TilesetService } from '@services/tileset.service';
+import { MusicEditionComponent } from '@components/modals/music-edition/music-edition.component';
 
 @Component({
   standalone: true,
@@ -31,7 +32,8 @@ import { TilesetService } from '@services/tileset.service';
     HeaderComponent,
     toolbarComponent,
     MapComponent,
-    MapbarComponent
+    MapbarComponent,
+    MusicEditionComponent
   ],
   templateUrl: './map-editor.component.html',
   styleUrl: './map-editor.component.scss'
@@ -84,35 +86,16 @@ export class MapEditorComponent {
     });
   }
 
-  buildMapFromSettings(mapSettings: MapSettings, propagation: boolean = false): void {
-    this.tilesetsToLoad = [];
-    this.mapService.updateWidth(mapSettings.width, propagation);
-    this.mapService.updateHeight(mapSettings.height, propagation);
-    this.mapService.updateTileSize(mapSettings.tileSize, propagation);
-    this.mapService.updateTitle(mapSettings.title);
-    if (!mapSettings.showGrid) this.mapService.hideGrid();
-
-    this.grid = new Grid(mapSettings.width, mapSettings.height, mapSettings.tileSize);
-    for (let x = 0; x < mapSettings.layers.length; x++) {
-      const tiles = mapSettings.layers[x].tiles ? mapSettings.layers[x].tiles : mapSettings.layers[x];
-      for (let coor in tiles) {
-        const content = tiles[coor];
-        const coordinates = ParseCoordinates(coor);
-        this.grid.updateTileContentInLayer(x, coordinates.i, coordinates.j, content);
-        if (content.tileset && this.tilesetsToLoad.indexOf(content.tileset) === -1) {
-          this.tilesetsToLoad.push(content.tileset);
-        }
-      }
-    }
-
-    console.log(this.grid);
-
-  }
 
   async loadingComplete(): Promise<void> {
     const gameID = this.route.snapshot.paramMap.get('game-id');
     const mapID = this.route.snapshot.paramMap.get('map-id');
 
+    this.tilesetService.retrieveAll().subscribe((resp: APIResp) => {
+      const tilesets = resp.data;
+      console.log('[TILESETS]', tilesets);
+      this.tilesetService.setAll(tilesets);
+    });
 
     if (gameID) {
       this.gameID = gameID;
@@ -120,7 +103,6 @@ export class MapEditorComponent {
       const game$ = this.gameService.getOne(gameID);
       const resp: APIResp = await lastValueFrom(game$);
       this.gameService.setCurrent(resp.data);
-      
     }
     if (mapID) {
       this.mapID = mapID;
@@ -130,14 +112,44 @@ export class MapEditorComponent {
         const map$ = this.mapService.getOne(mapID);
         const resp: APIResp = await lastValueFrom(map$);
         const mapSettings = resp.data;
+
         this.mapService.getLayers(mapID).subscribe(async (resp: APIResp) => {
           mapSettings.layers = resp.data;
-          console.log('[MAP SETTINGS FROM SERVER]', mapSettings)
-          this.buildMapFromSettings(mapSettings, true);
+          console.log('[MAP SETTINGS FROM SERVER]', mapSettings);
+          this.buildMapFromSettings(mapSettings);
           await this.loadAssets();
+          setTimeout(() => {
+            this.mapComp.draw();
+          })
         });
       }
     }
+  }
+
+  buildMapFromSettings(mapSettings: MapSettings): void {
+    this.tilesetsToLoad = [];
+    this.mapService.updateWidth(mapSettings.width, false);
+    this.mapService.updateHeight(mapSettings.height, false);
+    this.mapService.updateTileSize(mapSettings.tileSize, false);
+    this.mapService.updateTitle(mapSettings.title);
+    if (!mapSettings.showGrid) this.mapService.hideGrid();
+
+    this.grid = new Grid(mapSettings.width, mapSettings.height, mapSettings.tileSize);
+    let layers = [];
+    for (let x = 0; x < mapSettings.layers.length; x++) {
+      const tiles = mapSettings.layers[x].tiles ? mapSettings.layers[x].tiles : mapSettings.layers[x];
+      layers.push(tiles);
+      for (let coor in tiles) {
+        const content = tiles[coor];
+        const coordinates = ParseCoordinates(coor);
+        this.grid.updateTileContentInLayer(x, coordinates.i, coordinates.j, content);
+        if (content.tileset && this.tilesetsToLoad.indexOf(content.tileset) === -1) {
+          this.tilesetsToLoad.push(content.tileset);
+        }
+      }
+    }
+    this.mapService.updateLayers(layers, false);
+
   }
 
   async loadAssets(): Promise<void> {

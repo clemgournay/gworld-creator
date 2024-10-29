@@ -35,8 +35,8 @@ export class Layer {
   }
 
   buildGrid(): void {
-    for (let i = 0; i <= this.width; i++) {
-      for (let j = 0; j <= this.height; j++) {
+    for (let i = 0; i < this.width; i++) {
+      for (let j = 0; j < this.height; j++) {
         let coor: string = `${i}-${j}`;
         this.tiles[coor] = new Tile(i, j, this.tileSize);
       }
@@ -188,6 +188,9 @@ export class Layer {
 
   updateTileSize(newTileSize: number): void {
     this.tileSize = newTileSize;
+    for (let coor in this.tiles) {
+      this.tiles[coor].updateSize(newTileSize);
+    }
   }
 
   setDataURL(dataURL: string): void {
