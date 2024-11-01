@@ -22,7 +22,7 @@
                 <button type="button" class="edit">
                   <fa-icon [icon]="faPenToSquare"></fa-icon>
                 </button>
-                <button type="button" class="delete" (click)="remove(map, i)">
+                <button type="button" class="delete" (click)="remove($event, map, i)">
                   <fa-icon [icon]="faTrash"></fa-icon>
                 </button>
               </div>

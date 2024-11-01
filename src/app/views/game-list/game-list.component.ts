@@ -56,7 +56,8 @@ export class GameListComponent {
   }
 
 
-  remove(game: Game, index: number): void {
+  remove(e: MouseEvent, game: Game, index: number): void {
+    e.stopPropagation();
     this.gameService.delete(game._id).subscribe();
     this.games.splice(index, 1);
   }

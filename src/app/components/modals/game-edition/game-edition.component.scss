@@ -1,2 +1,22 @@
 @import '../../../styles/modals.scss';
 
+.modal {
+  .window {
+    width: 300px;
+
+    .content {
+      height: 300px;
+      min-height: 300px;
+
+      .fields {
+        .field {
+          .value {
+            input {
+              width: 100%;
+            }
+          }
+        }
+      }
+    }
+  }
+}

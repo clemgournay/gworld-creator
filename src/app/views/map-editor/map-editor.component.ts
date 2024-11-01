@@ -23,7 +23,7 @@ import { MapbarComponent } from '@components/parts/mapbar/mapbar.component';
 import { APIResp } from '@models/api-resp';
 import { AppService } from '@services/app.service';
 import { TilesetService } from '@services/tileset.service';
-import { MusicEditionComponent } from '@components/modals/music-edition/music-edition.component';
+import { AudioEditionComponent } from '@components/modals/audio-edition/audio-edition.component';
 
 @Component({
   standalone: true,
@@ -33,7 +33,7 @@ import { MusicEditionComponent } from '@components/modals/music-edition/music-ed
     toolbarComponent,
     MapComponent,
     MapbarComponent,
-    MusicEditionComponent
+    AudioEditionComponent
   ],
   templateUrl: './map-editor.component.html',
   styleUrl: './map-editor.component.scss'

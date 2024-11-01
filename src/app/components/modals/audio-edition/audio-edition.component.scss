@@ -1,0 +1,86 @@
+@import '../../../styles/modals.scss';
+
+.modal {
+  .window {
+    width: 1400px;
+
+    .content {
+
+      .tabs {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        .tab {
+          display: flex;
+          gap: 5px;
+          height: 50px;
+          padding: 0 20px;
+          line-height: 50px;
+          text-align: center;
+          cursor: pointer;
+        }
+      }
+
+      height: 800px;
+
+      .grid {
+        display: flex;
+        gap: 40px;
+        height: calc(100% - 50px);
+        .col {
+          height: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          &:first-child {
+            width: calc(100% - 100px);
+          }
+          &:nth-child(2) {
+            width: 200px;
+            font-size: 50px;
+          }
+          &:last-child {
+
+            width: calc(100% - 100px);
+          }
+
+          .inner {
+            width: 100%;
+
+            .card {
+              background: $backgroundTiertiary;
+              width: 100%;
+
+              > .title {
+                font-size: 30px;
+                color: $mainColor;
+                text-align: center;
+                height: 50px;
+                line-height: 50px;
+                background: $backgroundSecondary;
+              }
+              .audio-cont {
+                height: calc(100% - 50px);
+                padding: 20px;
+  
+                .audios {
+                  .audio {
+                    padding: 10px 20px;
+                    border-radius: 5px;
+                    margin-bottom: 10px;
+                    background: $backgroundSecondary;
+                  }
+                }
+              }
+            }
+
+        
+
+          }
+
+        }
+      }
+    }
+  }
+}

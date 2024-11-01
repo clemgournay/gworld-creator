@@ -24,7 +24,7 @@ export class HeaderComponent {
   @Output('requestSave') requestSave = new EventEmitter<void>();
   @Output('requestPlay') requestPlay = new EventEmitter<void>();
   @Output('requestStop') requestStop = new EventEmitter<void>();
-  @Output('requestMusicEdition') requestMusicEdition = new EventEmitter<void>();
+  @Output('requestAudioEdition') requestAudioEdition = new EventEmitter<void>();
 
   // Icons
   faFloppyDisk = faFloppyDisk;
@@ -68,8 +68,8 @@ export class HeaderComponent {
     this.mapService.updateTitle(this.mapTitle);
   }
 
-  openMusicEdition(): void {
-    this.requestMusicEdition.emit();
+  openAudioEdition(): void {
+    this.requestAudioEdition.emit();
   }
 
 }

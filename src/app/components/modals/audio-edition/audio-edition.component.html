@@ -6,21 +6,29 @@
       <fa-icon class="close" [icon]="faTimes" (click)="close()"></fa-icon>
     </div>
     <div class="content">
+      <div class="tabs">
+        @for (tab of tabs; track tab.key) {
+          <div class="tab" [class.active]="currentTab.key === tab.key" (click)="switchTab(tab)">
+            <fa-icon [icon]="tab.icon"></fa-icon>
+            <span>{{tab.label}}</span>
+          </div>
+        }
+      </div>
       <div class="grid">
         <div class="col">
           <div class="inner">
-            <div class="title">Select a music</div>
-            <div class="music-cont">
-              <div class="musics">
-                @for (music of musics; track music._id) {
-                  <div class="music">
-                    <div class="title">{{music.title}}</div>
+            <div class="card">
+              <div class="title">Select an audio</div>
+              <div class="audio-cont">
+                <div class="audios">
+                  @for (audio of getAudios(); track audio._id) {
                     <div class="audio">
-                      <audio>
-                        <source type="audio/mp3" [src]="music.source">
-                      </audio>
+                      <app-audio-player [audio]="audio"></app-audio-player>
                     </div>
-                  </div>
+                  }
+                </div>
+                @if (getAudios().length === 0) {
+                  <p class="no-data">No audio found.</p>
                 }
               </div>
             </div>

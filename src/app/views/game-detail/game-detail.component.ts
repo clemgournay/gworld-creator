@@ -71,7 +71,7 @@ export class GameDetailComponent {
 
   }
 
-  remove(map: Map, index: number): void {
+  remove(e: MouseEvent, map: Map, index: number): void {
     this.mapService.delete(map._id).subscribe();
     this.maps.splice(index, 1);
   }

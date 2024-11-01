@@ -5,15 +5,18 @@
     <h2>{{title}}</h2>
   </div>
 
-  <div class="menu">
-    <div class="item" (click)="openMusicEdition()">
-      <fa-icon [icon]="faMusic"></fa-icon>
+  @if (view === 'editor') {
+    <div class="menu">
+      <div class="item" (click)="openAudioEdition()">
+        <fa-icon [icon]="faMusic"></fa-icon>
+      </div>
     </div>
-  </div>
+  
+    <div class="title">
+      <input type="text" [(ngModel)]="mapTitle" (change)="updateMapTitle()"/>
+    </div>
+  }
 
-  <div class="title" *ngIf="view === 'editor'">
-    <input type="text" [(ngModel)]="mapTitle" (change)="updateMapTitle()"/>
-  </div>
 
   <div class="controls">
     @if (view === 'editor') {
