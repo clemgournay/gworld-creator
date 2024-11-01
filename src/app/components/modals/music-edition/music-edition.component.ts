@@ -37,7 +37,7 @@ export class MusicEditionComponent extends ModalAbstractComponent {
     const files = inputEl.files as FileList;
     if (files.length > 0) {
       const file = files[0];
-      this.
+      
     }
   }
 }
