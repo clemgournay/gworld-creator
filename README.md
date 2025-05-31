@@ -1,5 +1,6 @@
 # GworldCreator
 
+A webapp to create your own game without writing any code.
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.0.4.
 
 ## Development server
