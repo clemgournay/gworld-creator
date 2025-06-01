@@ -1,6 +1,7 @@
 # GworldCreator
 
 A webapp to create your own game without writing any code.
+You can use existing assets or upload your own.
 
 ## Development server
 
